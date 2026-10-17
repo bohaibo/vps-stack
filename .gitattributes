@@ -1,0 +1,6 @@
+# 脚本必须保持 LF：CRLF 会让服务器上的 python / bash 第一行就报错
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
