@@ -6,7 +6,7 @@
 除 `export` 外，任何阶段都不会把密码、Key、订阅路径打印到终端。
 
     python3 vps-stack.py init --ip 1.2.3.4 --alias bwg --timezone America/Los_Angeles
-    python3 vps-stack.py all          # base → cert → xui → sub → cliproxy → maint → verify
+    python3 vps-stack.py all          # base → cert → xui → sub → cliproxy → maint → proxy → verify
     python3 vps-stack.py verify
     python3 vps-stack.py export       # 仅在把输出重定向到本机文件时使用
 """
@@ -1240,21 +1240,21 @@ def cmd_verify(a):
 
 # ---------------------------------------------------------------- proxy
 def cmd_proxy(a):
-    """给浏览器 / 多开客户端用的 HTTP + SOCKS5 认证代理，独立于面板运行。"""
+    """给浏览器 / 多开客户端用的 HTTP + SOCKS5 认证代理，独立于面板运行。默认阶段之一。"""
     script = HERE / 'auth_proxy.py'
     if not script.exists():
         die(f'找不到 {script}')
-    if a.uninstall:
+    if getattr(a, 'uninstall', False):
         argv = ['uninstall']
-    elif a.check:
+    elif getattr(a, 'check', False):
         argv = ['verify']
     else:
         argv = ['install']
-        if a.http_port:
+        if getattr(a, 'http_port', None):
             argv += ['--http-port', str(a.http_port)]
-        if a.socks_port:
+        if getattr(a, 'socks_port', None):
             argv += ['--socks-port', str(a.socks_port)]
-        if a.rotate:
+        if getattr(a, 'rotate', False):
             argv.append('--rotate')
     return subprocess.call([sys.executable, str(script)] + argv)
 
@@ -1366,7 +1366,7 @@ def proxy_section(ip, zh):
 
 
 # ---------------------------------------------------------------- main
-PHASES = ['base', 'cert', 'xui', 'sub', 'cliproxy', 'maint']
+PHASES = ['base', 'cert', 'xui', 'sub', 'cliproxy', 'maint', 'proxy']
 
 
 def main():
@@ -1381,15 +1381,15 @@ def main():
     i.add_argument('--reset-day', type=int, help='流量每月重置日（1–28）；不填按开通日自动推算')
     i.add_argument('--node-name', help='节点名称前缀：主力/备用节点分别叫「前缀-main」「前缀-backup」；不填用登录名当前缀')
     for name in PHASES + ['all', 'backup']:
-        sp.add_parser(name)
+        p = sp.add_parser(name)
+        if name == 'proxy':
+            p.add_argument('--http-port', type=int)
+            p.add_argument('--socks-port', type=int)
+            p.add_argument('--rotate', action='store_true', help='重新生成用户名和密码')
+            p.add_argument('--check', action='store_true', help='只做只读检查，不安装')
+            p.add_argument('--uninstall', action='store_true')
     v = sp.add_parser('verify')
     v.add_argument('--full', action='store_true', help='额外做一次证书续期演练')
-    x = sp.add_parser('proxy', help='浏览器用的 HTTP / SOCKS5 认证代理（可选）')
-    x.add_argument('--http-port', type=int)
-    x.add_argument('--socks-port', type=int)
-    x.add_argument('--rotate', action='store_true', help='重新生成用户名和密码')
-    x.add_argument('--check', action='store_true', help='只做只读检查，不安装')
-    x.add_argument('--uninstall', action='store_true')
     e = sp.add_parser('export')
     e.add_argument('--force', action='store_true')
     e.add_argument('--lang', default='zh', help='登录信息文件的语言：zh en ko ja ar es fr ru de pt')

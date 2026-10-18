@@ -1,11 +1,11 @@
 ---
 name: vps-stack
-description: 把一台全新的 Debian / Ubuntu VPS 从零配置成自用代理栈：ssh 名称免密登录、3x-ui（Reality 443 + TLS 2443）、Clash / Shadowrocket 订阅与 AI 分流、Let's Encrypt IP 证书自动续期、CLIProxyAPI 与 30 分钟自动更新、可选的浏览器 HTTP / SOCKS5 认证代理、SSH/防火墙加固、每日备份与验收。用户只需提供服务器 IP、SSH 登录方式和想用的 ssh 名称。Use when the user asks to 配置服务器、部署 VPS、搭节点、装 3x-ui、装 CLIProxyAPI、新买的搬瓦工/DMIT 配一下、以后 ssh xxx 能登录、给服务器加个带账号密码的代理、指纹浏览器代理，or to re-check / repair / extend a server set up this way.
+description: 把一台全新的 Debian / Ubuntu VPS 从零配置成自用代理栈：ssh 名称免密登录、3x-ui（Reality 443 + TLS 2443）、Clash / Shadowrocket 订阅与 AI 分流、Let's Encrypt IP 证书自动续期、CLIProxyAPI 与 30 分钟自动更新、浏览器 HTTP / SOCKS5 认证代理、SSH/防火墙加固、每日备份与验收。用户只需提供服务器 IP、SSH 登录方式和想用的 ssh 名称。Use when the user asks to 配置服务器、部署 VPS、搭节点、装 3x-ui、装 CLIProxyAPI、新买的搬瓦工/DMIT 配一下、以后 ssh xxx 能登录、给服务器加个带账号密码的代理、指纹浏览器代理，or to re-check / repair / extend a server set up this way.
 ---
 
 # VPS 代理栈
 
-把用户刚买的一台 VPS，配置成一整套自用代理服务：节点订阅 + AI 接口网关 + 可选的多开浏览器代理。
+把用户刚买的一台 VPS，配置成一整套自用代理服务：节点订阅 + AI 接口网关 + 多开浏览器代理。
 
 全部动作由本目录的脚本完成，你负责：问清楚信息、按顺序运行脚本、读懂报错并修复、最后把结果交给用户。
 
@@ -47,7 +47,6 @@ description: 把一台全新的 Debian / Ubuntu VPS 从零配置成自用代理�
 可选：
 6. 机房在哪个城市（用来设时区，不填我按服务商机房判断）
 7. 每月流量额度和重置日（只用于在客户端显示用量；不填默认 1000G，重置日按开通日自动推算）
-8. 要不要顺便加一个浏览器代理（指纹浏览器 / 多开浏览器填 HTTP 或 SOCKS5 那种）
 ```
 
 **密码的处理：**
@@ -93,6 +92,7 @@ bash "$R" 名称 xui        # 3x-ui、固定 Xray、Reality 443、TLS 2443、两
 bash "$R" 名称 sub        # 规则镜像、订阅中间层、订阅检查
 bash "$R" 名称 cliproxy   # CLIProxyAPI + Management Center
 bash "$R" 名称 maint      # CLIProxyAPI 自动更新、规则每日刷新、每日备份
+bash "$R" 名称 proxy      # 浏览器用的 HTTP / SOCKS5 认证代理（默认安装）
 bash "$R" 名称 verify --full
 ```
 
@@ -109,10 +109,11 @@ bash "$R" 名称 verify --full
 | sub | 规则镜像 + 订阅中间层 | 2096 |
 | cliproxy | CLIProxyAPI + 管理中心 | 8318 |
 | maint | 自动更新、规则刷新、每日备份 | — |
+| proxy | 浏览器用的 HTTP / SOCKS5 认证代理（默认安装） | 20126 / 59357 |
 
-## 可选：浏览器代理
+## 浏览器代理
 
-指纹浏览器、多开浏览器通常只支持填一个 HTTP / SOCKS5 代理加用户名密码，不吃订阅。用户提到比特浏览器、AdsPower、多开窗口、浏览器代理时，在 `maint` 之后加一步：
+`maint` 之后默认安装，不用问用户要不要：
 
 ```bash
 bash "$R" 名称 proxy            # 默认 HTTP 20126 / SOCKS5 59357
@@ -124,7 +125,7 @@ bash "$R" 名称 proxy --check    # 只做只读检查
 - 凭据每台服务器独立随机生成，写进 `/etc/vps-stack/proxy.json`（600），终端不显示；`save` 时会自动出现在登录信息文件里。
 - 出站固定 IPv4，私网地址和 BT 协议一律拒绝，避免被当成内网跳板或下载机。
 - 端口被占用时换一对（`--http-port 20226 --socks-port 59457`），并告诉用户改了什么。
-- 别忘了服务商后台的安全组也要放行这两个端口。
+- 服务商后台的安全组要放行这两个端口（20126 / 59357）。
 
 ## 第四步：交付
 
@@ -148,7 +149,7 @@ bash "$R" 名称 proxy --check    # 只做只读检查
    - 登录信息文件的路径（让用户自己打开，你不要读出来）；
    - 电脑装 Clash Verge Rev，导入文件里的 **Clash 订阅**，选"规则"模式并打开"虚拟网卡模式"（TUN，第一次按提示安装服务；只开系统代理时，浏览器的 WebRTC 会暴露真实 IP）；iPhone 用 Shadowrocket 导入 **Shadowrocket 订阅**；路由器 OpenClash 用 Clash 订阅；
    - CLIProxyAPI 现在是空的，要在管理中心添加自己的上游账号或供应商 Key；
-   - 加了浏览器代理的话，浏览器里选 **HTTP** 那一组，IP / 端口 / 用户名 / 密码照抄；这个代理是固定出口，和节点订阅无关，节点挂了它照样能用；
+   - 浏览器代理默认已装好，浏览器里选 **HTTP** 那一组，IP / 端口 / 用户名 / 密码照抄文件里的；这个代理是固定出口，和节点订阅无关，节点挂了它照样能用；
    - 导入后打开 <https://ip.net.coffee/claude/>，显示服务器的 IP 就说明通了；要出差的话，出发前在手机和电脑上都测一遍。
 
 ## 以后的复核和维护
