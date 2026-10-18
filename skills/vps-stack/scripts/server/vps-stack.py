@@ -1190,7 +1190,7 @@ def cmd_verify(a):
     except Exception:
         check('3x-ui 面板 HTTPS 可打开', False)
     subs = check_subscriptions(d, c)
-    check('OpenClash / Mihomo 订阅（含两个节点和 AI 分流组）', subs['clash'])
+    check('OpenClash / Mihomo 订阅（含两个节点和 PROXY-代理 组）', subs['clash'])
     check('Shadowrocket 订阅（两条 vless 链接）', subs['shadowrocket'])
     try:
         bad = rule_problems(served_clash(d, c))
