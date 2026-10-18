@@ -17,7 +17,7 @@
 
 ```text
 请按「vps-stack」方案配置我新买的服务器。
-方案地址：https://github.com/<你的账号>/vps-stack
+方案地址：https://github.com/bohaibo/vps-stack
 请先把这个项目下载到本机，完整阅读 skills/vps-stack/SKILL.md，
 严格按里面的步骤和规则，用项目里的脚本完成部署和验收。
 我的服务器：
