@@ -41,12 +41,13 @@ description: 把一台全新的 Debian / Ubuntu VPS 从零配置成自用代理�
 1. 服务器 IP：
 2. 登录方式：初始密码，或者密钥文件在电脑上的路径（zip 也可以）
 3. SSH 用户名和端口：不知道就写"默认"（root / 22）
-4. 以后想用什么名字登录：比如 bwg，以后输入 ssh bwg 就能进服务器
+4. 以后想用什么名字登录：比如 bo，以后输入 ssh bo 就能进服务器
+5. 节点名称前缀：两个节点在客户端里会显示成「前缀-main」「前缀-backup」，比如填「新加坡」；不填就用登录名当前缀
 
 可选：
-5. 机房在哪个城市（用来设时区，不填我按服务商机房判断）
-6. 每月流量额度和重置日（只用于在客户端显示用量；不填默认 1000G，重置日按开通日自动推算）
-7. 要不要顺便加一个浏览器代理（指纹浏览器 / 多开浏览器填 HTTP 或 SOCKS5 那种）
+6. 机房在哪个城市（用来设时区，不填我按服务商机房判断）
+7. 每月流量额度和重置日（只用于在客户端显示用量；不填默认 1000G，重置日按开通日自动推算）
+8. 要不要顺便加一个浏览器代理（指纹浏览器 / 多开浏览器填 HTTP 或 SOCKS5 那种）
 ```
 
 **密码的处理：**
@@ -85,7 +86,7 @@ macOS 如果提示读不到"下载"文件夹里的文件，请用户把文件拖
 ```bash
 R="$SKILL/scripts/local/remote.sh"
 bash "$R" 名称 upload
-bash "$R" 名称 init --ip IP --alias 名称 --timezone 时区 [--quota-gb 1000 --reset-day 1]
+bash "$R" 名称 init --ip IP --alias 名称 --timezone 时区 [--node-name 节点名称前缀] [--quota-gb 1000 --reset-day 1]
 bash "$R" 名称 base       # 时区、依赖、BBR、防火墙、关闭 SSH 密码登录
 bash "$R" 名称 cert       # Let's Encrypt IP 证书 + 6 小时续期 + Nginx
 bash "$R" 名称 xui        # 3x-ui、固定 Xray、Reality 443、TLS 2443、两套订阅身份

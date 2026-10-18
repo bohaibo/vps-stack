@@ -2,7 +2,7 @@
 # 把服务器端工具上传到 VPS 并执行一个阶段。
 #
 #   remote.sh <ssh名称> upload
-#   remote.sh <ssh名称> init --ip 1.2.3.4 --alias bwg --timezone America/Los_Angeles [--quota-gb 1000 --reset-day 1]
+#   remote.sh <ssh名称> init --ip 1.2.3.4 --alias bo --timezone Asia/Singapore [--node-name 节点名称前缀] [--quota-gb 1000 --reset-day 1]
 #   remote.sh <ssh名称> base | cert | xui | sub | cliproxy | maint | verify [--full]
 #   remote.sh <ssh名称> proxy [--http-port 20126 --socks-port 59357 --rotate --check --uninstall]   # 浏览器用的 HTTP / SOCKS5 认证代理（可选）
 #   remote.sh <ssh名称> save [--lang en]   # 把登录信息保存到桌面（中文「我的服务器-<名称>-订阅和账号.md」，其他语言「my-server-<名称>-subscriptions-and-accounts-<语言>.md」），不在终端显示

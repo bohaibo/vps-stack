@@ -255,7 +255,9 @@ def cmd_init(a):
     ETC.mkdir(mode=0o700, exist_ok=True)
     write(DEPLOY, json.dumps(d, indent=2, ensure_ascii=False), 0o600)
     if not CREDS.exists():
-        name = a.alias
+        name = a.node_name or a.alias
+        if not re.fullmatch(r'[A-Za-z0-9一-龥-]{1,32}', name):
+            die('--node-name 只能用字母、数字、连字符和中文，最长 32 个字符（会出现在订阅和客户端里）')
         save_creds({
             'panel_username': 'u' + rand(11).lower(), 'panel_password': rand(24),
             'panel_path': '/' + rand(18) + '/',
@@ -263,7 +265,7 @@ def cmd_init(a):
             'sub_id_clash': rand(16).lower(), 'sub_id_mobile': rand(16).lower(),
             'uuid_clash': str(uuid.uuid4()), 'uuid_mobile': str(uuid.uuid4()),
             'short_id': secrets.token_hex(8),
-            'reality_name': f'{name}-Reality', 'tls_name': f'{name}-TLS',
+            'reality_name': f'{name}-main', 'tls_name': f'{name}-backup',
             'email_clash': f'{name}-openclash', 'email_mobile': f'{name}-shadowrocket',
             'cliproxy_management_key': rand(32), 'cliproxy_api_key': 'sk-' + rand(40),
         })
@@ -1377,6 +1379,7 @@ def main():
     i.add_argument('--ssh-port', type=int)
     i.add_argument('--quota-gb', type=int, help='每月流量额度（GB），只用于客户端显示；不填默认 1000')
     i.add_argument('--reset-day', type=int, help='流量每月重置日（1–28）；不填按开通日自动推算')
+    i.add_argument('--node-name', help='节点名称前缀：主力/备用节点分别叫「前缀-main」「前缀-backup」；不填用登录名当前缀')
     for name in PHASES + ['all', 'backup']:
         sp.add_parser(name)
     v = sp.add_parser('verify')
