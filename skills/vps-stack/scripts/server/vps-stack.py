@@ -883,7 +883,7 @@ def check_subscriptions(d, c, fatal=False):
     try:
         st, _, body = https_get(ip, PORT['sub'], c['clash_path'] + c['sub_id_clash'], {'User-Agent': 'mihomo'})
         text = body.decode('utf-8', 'replace')
-        results['clash'] = st == 200 and c['reality_name'] in text and c['tls_name'] in text and 'AI-人工智能' in text
+        results['clash'] = st == 200 and c['reality_name'] in text and c['tls_name'] in text and 'PROXY-代理' in text
     except Exception:
         results['clash'] = False
     try:

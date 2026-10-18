@@ -95,16 +95,18 @@ Xray 出站用 `ForceIPv4` 并拦截 `::/0`：代理流量只从服务器的 IPv
 Clash 订阅自带完整规则（模板在 `scripts/server/files/clash-template.yaml`），客户端导入后选"规则"模式即可，不用自己写规则。顺序是：
 
 1. 服务器自己的 IP、局域网地址直连；
-2. **Gemini / Google AI 相关域名**（含登录、静态资源）→ `AI-人工智能`；
-3. OpenAI、Claude、Gemini 规则集，以及 ChatGPT、Claude、Grok / xAI、Perplexity、Copilot、Cursor、Midjourney、Hugging Face、Muse 等域名，再加 `claude`、`anthropic`、`openai`、`generativelanguage` 四个关键词兜底 → `AI-人工智能`；
+2. **Gemini / Google AI 相关域名**（含登录、静态资源）→ `PROXY-代理`；
+3. OpenAI、Claude、Gemini 规则集，以及 ChatGPT、Claude、Grok / xAI、Perplexity、Copilot、Cursor、Midjourney、Hugging Face、Muse 等域名，再加 `claude`、`anthropic`、`openai`、`generativelanguage` 四个关键词兜底 → `PROXY-代理`；
 4. MetaCubeX 的 `category-ai-!cn` 兜底其他海外 AI 服务；
-5. 国内域名和国内 IP 直连（国内 IP 段规则和 `GEOIP,CN` 都带 `no-resolve`，不为了匹配规则去做 DNS 解析）；YouTube、Netflix、Telegram、Apple、Microsoft、Google 各自分组；
+5. 国内域名和国内 IP 直连（国内 IP 段规则和 `GEOIP,CN` 都带 `no-resolve`，不为了匹配规则去做 DNS 解析）；YouTube、Netflix、Telegram、Apple、Microsoft、Google 等海外服务一起走 `PROXY-代理`，规则里已经写好，不用自己选；
 6. 腾讯海外网络（`IP-ASN,132203`）直连；
-7. 最后 `MATCH` 走代理。
+7. 最后 `MATCH` 走 `PROXY-代理`。
+
+**订阅里只有一个代理组**：`PROXY-代理`（select），组内只有主力（Reality 443）、备用（TLS 2443）两个节点，不放直连和自动切换选项。需要直连的流量在规则里已经直接写死 `DIRECT`（国内域名、国内 IP、局域网、腾讯 ASN），剩下的海外流量全部走这一个组；主力节点连不上时在组里手动切到备用即可。
 
 第 6 条是给微信的。微信很多连接不查域名、直接连服务器 IP，其中香港、新加坡等地的腾讯服务器（AS132203）不在国内 IP 段里，原本会掉进 `MATCH` 从代理出去。同一个微信一部分连接直连、一部分从国外出口走，就会出现图片发不出去、一直转圈或红色感叹号。这条规则排在倒数第二，只接住前面所有规则都没认出来的流量：AI、Google、GFW 列表等按域名分流的连接在前面早已分好，不受影响。ASN 数据库（`GeoLite2-ASN.mmdb`）和 `geoip.metadb` 一样由服务器镜像，订阅里的 `geox-url` 指向你自己的服务器。
 
-AI 规则必须排在通用规则前面，否则 Gemini 的登录、静态资源域名可能被分到 Google 或直连组，出口不一致，容易出现"页面打得开但用不了"。
+AI 规则必须排在通用规则前面，否则 Gemini 的登录、静态资源域名可能被 Google 规则或直连接走，出口不一致，容易出现"页面打得开但用不了"。
 
 规则顺序经过实测校准（133 条，27 个规则集）。
 

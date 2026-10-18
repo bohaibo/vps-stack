@@ -299,85 +299,11 @@ dns:
   - https://doh.pub/dns-query
   respect-rules: true
 proxy-groups:
-- name: AUTO-自动切换
-  type: fallback
-  proxies:
-  - '{{REALITY_NAME}}'
-  - '{{TLS_NAME}}'
-  url: https://www.gstatic.com/generate_204
-  interval: 300
-  lazy: true
 - name: PROXY-代理
   type: select
   proxies:
-  - AUTO-自动切换
   - '{{REALITY_NAME}}'
   - '{{TLS_NAME}}'
-  - DIRECT
-- name: AI-人工智能
-  type: select
-  proxies:
-  - AUTO-自动切换
-  - '{{TLS_NAME}}'
-  - '{{REALITY_NAME}}'
-  - PROXY-代理
-  - DIRECT
-- name: TELEGRAM-电报
-  type: select
-  proxies:
-  - PROXY-代理
-  - AUTO-自动切换
-  - '{{REALITY_NAME}}'
-  - '{{TLS_NAME}}'
-  - DIRECT
-- name: GOOGLE-谷歌
-  type: select
-  proxies:
-  - PROXY-代理
-  - AUTO-自动切换
-  - '{{REALITY_NAME}}'
-  - '{{TLS_NAME}}'
-  - DIRECT
-- name: MEDIA-影音
-  type: select
-  proxies:
-  - AUTO-自动切换
-  - '{{TLS_NAME}}'
-  - '{{REALITY_NAME}}'
-  - PROXY-代理
-  - DIRECT
-- name: NETFLIX-奈飞
-  type: select
-  proxies:
-  - MEDIA-影音
-  - PROXY-代理
-  - AUTO-自动切换
-  - '{{REALITY_NAME}}'
-  - '{{TLS_NAME}}'
-  - DIRECT
-- name: APPLE-苹果
-  type: select
-  proxies:
-  - DIRECT
-  - PROXY-代理
-  - AUTO-自动切换
-  - '{{REALITY_NAME}}'
-  - '{{TLS_NAME}}'
-- name: MICROSOFT-微软
-  type: select
-  proxies:
-  - DIRECT
-  - PROXY-代理
-  - AUTO-自动切换
-  - '{{REALITY_NAME}}'
-  - '{{TLS_NAME}}'
-- name: PROXY
-  type: select
-  proxies:
-  - AUTO-自动切换
-  - '{{TLS_NAME}}'
-  - PROXY-代理
-  - DIRECT
 rule-providers:
   OpenAI:
     type: http
@@ -609,116 +535,116 @@ rules:
 - IP-CIDR6,::1/128,DIRECT,no-resolve
 - IP-CIDR6,fc00::/7,DIRECT,no-resolve
 - IP-CIDR6,fe80::/10,DIRECT,no-resolve
-- DOMAIN,ai.google.dev,AI-人工智能
-- DOMAIN,alkalicore-pa.clients6.google.com,AI-人工智能
-- DOMAIN,alkalimakersuite-pa.clients6.google.com,AI-人工智能
-- DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com,AI-人工智能
-- DOMAIN,cloudaicompanion.googleapis.com,AI-人工智能
-- DOMAIN,cloudcode-pa.googleapis.com,AI-人工智能
-- DOMAIN,daily-cloudcode-pa.googleapis.com,AI-人工智能
-- DOMAIN,notebooklm-pa.googleapis.com,AI-人工智能
-- DOMAIN,notebooklm.googleapis.com,AI-人工智能
-- DOMAIN,antigravity-pa.googleapis.com,AI-人工智能
-- DOMAIN,antigravity.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,notebooklm.google,AI-人工智能
-- DOMAIN-SUFFIX,deepmind.google,AI-人工智能
-- DOMAIN-SUFFIX,antigravity-unleash.goog,AI-人工智能
-- DOMAIN-SUFFIX,antigravity.google,AI-人工智能
-- DOMAIN-SUFFIX,opal.google,AI-人工智能
-- DOMAIN-SUFFIX,flow.google,AI-人工智能
-- DOMAIN-SUFFIX,generativeai.google,AI-人工智能
-- DOMAIN-SUFFIX,deepmind.com,AI-人工智能
-- DOMAIN-SUFFIX,ai.studio,AI-人工智能
-- DOMAIN-SUFFIX,labs.google,AI-人工智能
-- DOMAIN-SUFFIX,jules.google,AI-人工智能
-- DOMAIN-SUFFIX,gemini.google,AI-人工智能
-- DOMAIN-SUFFIX,makersuite.google.com,AI-人工智能
-- DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,notebook.google.com,AI-人工智能
-- DOMAIN-SUFFIX,gemini.google.com,AI-人工智能
-- DOMAIN-SUFFIX,notebooklm.google.com,AI-人工智能
-- DOMAIN-SUFFIX,bard.google.com,AI-人工智能
-- DOMAIN-SUFFIX,jules.google.com,AI-人工智能
-- DOMAIN-SUFFIX,aistudio.google.com,AI-人工智能
-- DOMAIN-SUFFIX,labs.google.com,AI-人工智能
-- DOMAIN-SUFFIX,gemini.gstatic.com,AI-人工智能
-- DOMAIN-SUFFIX,aisandbox-pa.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,aicode.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,aida.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,opal.google.com,AI-人工智能
-- DOMAIN-SUFFIX,generativelanguage.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,geller-pa.googleapis.com,AI-人工智能
-- DOMAIN-SUFFIX,stitch.withgoogle.com,AI-人工智能
-- DOMAIN-SUFFIX,accounts.google.com,AI-人工智能
-- DOMAIN,apis.google.com,AI-人工智能
-- DOMAIN,ogs.google.com,AI-人工智能
-- DOMAIN-SUFFIX,gstatic.com,AI-人工智能
-- DOMAIN-SUFFIX,googleusercontent.com,AI-人工智能
-- DOMAIN,oauth2.googleapis.com,AI-人工智能
-- DOMAIN,securetoken.googleapis.com,AI-人工智能
-- DOMAIN,identitytoolkit.googleapis.com,AI-人工智能
+- DOMAIN,ai.google.dev,PROXY-代理
+- DOMAIN,alkalicore-pa.clients6.google.com,PROXY-代理
+- DOMAIN,alkalimakersuite-pa.clients6.google.com,PROXY-代理
+- DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com,PROXY-代理
+- DOMAIN,cloudaicompanion.googleapis.com,PROXY-代理
+- DOMAIN,cloudcode-pa.googleapis.com,PROXY-代理
+- DOMAIN,daily-cloudcode-pa.googleapis.com,PROXY-代理
+- DOMAIN,notebooklm-pa.googleapis.com,PROXY-代理
+- DOMAIN,notebooklm.googleapis.com,PROXY-代理
+- DOMAIN,antigravity-pa.googleapis.com,PROXY-代理
+- DOMAIN,antigravity.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,notebooklm.google,PROXY-代理
+- DOMAIN-SUFFIX,deepmind.google,PROXY-代理
+- DOMAIN-SUFFIX,antigravity-unleash.goog,PROXY-代理
+- DOMAIN-SUFFIX,antigravity.google,PROXY-代理
+- DOMAIN-SUFFIX,opal.google,PROXY-代理
+- DOMAIN-SUFFIX,flow.google,PROXY-代理
+- DOMAIN-SUFFIX,generativeai.google,PROXY-代理
+- DOMAIN-SUFFIX,deepmind.com,PROXY-代理
+- DOMAIN-SUFFIX,ai.studio,PROXY-代理
+- DOMAIN-SUFFIX,labs.google,PROXY-代理
+- DOMAIN-SUFFIX,jules.google,PROXY-代理
+- DOMAIN-SUFFIX,gemini.google,PROXY-代理
+- DOMAIN-SUFFIX,makersuite.google.com,PROXY-代理
+- DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,notebook.google.com,PROXY-代理
+- DOMAIN-SUFFIX,gemini.google.com,PROXY-代理
+- DOMAIN-SUFFIX,notebooklm.google.com,PROXY-代理
+- DOMAIN-SUFFIX,bard.google.com,PROXY-代理
+- DOMAIN-SUFFIX,jules.google.com,PROXY-代理
+- DOMAIN-SUFFIX,aistudio.google.com,PROXY-代理
+- DOMAIN-SUFFIX,labs.google.com,PROXY-代理
+- DOMAIN-SUFFIX,gemini.gstatic.com,PROXY-代理
+- DOMAIN-SUFFIX,aisandbox-pa.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,aicode.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,aida.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,opal.google.com,PROXY-代理
+- DOMAIN-SUFFIX,generativelanguage.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,geller-pa.googleapis.com,PROXY-代理
+- DOMAIN-SUFFIX,stitch.withgoogle.com,PROXY-代理
+- DOMAIN-SUFFIX,accounts.google.com,PROXY-代理
+- DOMAIN,apis.google.com,PROXY-代理
+- DOMAIN,ogs.google.com,PROXY-代理
+- DOMAIN-SUFFIX,gstatic.com,PROXY-代理
+- DOMAIN-SUFFIX,googleusercontent.com,PROXY-代理
+- DOMAIN,oauth2.googleapis.com,PROXY-代理
+- DOMAIN,securetoken.googleapis.com,PROXY-代理
+- DOMAIN,identitytoolkit.googleapis.com,PROXY-代理
 - RULE-SET,ACL-LocalAreaNetwork,DIRECT
-- RULE-SET,OpenAI,AI-人工智能
-- RULE-SET,Claude,AI-人工智能
-- RULE-SET,Gemini,AI-人工智能
-- DOMAIN-SUFFIX,chat.com,AI-人工智能
-- DOMAIN-SUFFIX,chatgpt.com,AI-人工智能
-- DOMAIN-SUFFIX,oaistatic.com,AI-人工智能
-- DOMAIN-SUFFIX,oaiusercontent.com,AI-人工智能
-- DOMAIN-SUFFIX,openai.com,AI-人工智能
-- DOMAIN-SUFFIX,anthropic.com,AI-人工智能
-- DOMAIN-SUFFIX,claude.ai,AI-人工智能
-- DOMAIN-SUFFIX,claude.com,AI-人工智能
-- DOMAIN-SUFFIX,clau.de,AI-人工智能
-- DOMAIN-SUFFIX,claudeusercontent.com,AI-人工智能
-- DOMAIN-SUFFIX,claudemcpclient.com,AI-人工智能
-- DOMAIN-SUFFIX,claudemcpcontent.com,AI-人工智能
-- DOMAIN,servd-anthropic-website.b-cdn.net,AI-人工智能
-- DOMAIN,cdn.usefathom.com,AI-人工智能
-- DOMAIN,challenges.cloudflare.com,AI-人工智能
-- DOMAIN-SUFFIX,statsig.com,AI-人工智能
-- DOMAIN-SUFFIX,featuregates.org,AI-人工智能
-- DOMAIN-SUFFIX,featureassets.org,AI-人工智能
-- DOMAIN-KEYWORD,claude,AI-人工智能
-- DOMAIN-KEYWORD,anthropic,AI-人工智能
-- DOMAIN-KEYWORD,openai,AI-人工智能
-- DOMAIN-KEYWORD,generativelanguage,AI-人工智能
-- DOMAIN-SUFFIX,oaistatsig.com,AI-人工智能
-- DOMAIN-SUFFIX,sora.com,AI-人工智能
-- DOMAIN-SUFFIX,chatgpt.livekit.cloud,AI-人工智能
-- DOMAIN-SUFFIX,host.livekit.cloud,AI-人工智能
-- DOMAIN-SUFFIX,turn.livekit.cloud,AI-人工智能
-- DOMAIN,login.live.com,AI-人工智能
-- DOMAIN,login.microsoftonline.com,AI-人工智能
-- DOMAIN-SUFFIX,copilot.microsoft.com,AI-人工智能
-- DOMAIN-SUFFIX,copilot.com,AI-人工智能
-- DOMAIN-SUFFIX,githubcopilot.com,AI-人工智能
-- DOMAIN-SUFFIX,perplexity.ai,AI-人工智能
-- DOMAIN-SUFFIX,perplexity.com,AI-人工智能
-- DOMAIN-SUFFIX,pplx.ai,AI-人工智能
-- DOMAIN-SUFFIX,grok.com,AI-人工智能
-- DOMAIN-SUFFIX,x.ai,AI-人工智能
-- DOMAIN-SUFFIX,poe.com,AI-人工智能
-- DOMAIN-SUFFIX,meta.ai,AI-人工智能
-- DOMAIN-SUFFIX,midjourney.com,AI-人工智能
-- DOMAIN-SUFFIX,huggingface.co,AI-人工智能
-- DOMAIN-SUFFIX,cursor.com,AI-人工智能
-- DOMAIN-SUFFIX,cursor.sh,AI-人工智能
-- DOMAIN-SUFFIX,muse.ai,AI-人工智能
-- RULE-SET,ai-non-cn,AI-人工智能
+- RULE-SET,OpenAI,PROXY-代理
+- RULE-SET,Claude,PROXY-代理
+- RULE-SET,Gemini,PROXY-代理
+- DOMAIN-SUFFIX,chat.com,PROXY-代理
+- DOMAIN-SUFFIX,chatgpt.com,PROXY-代理
+- DOMAIN-SUFFIX,oaistatic.com,PROXY-代理
+- DOMAIN-SUFFIX,oaiusercontent.com,PROXY-代理
+- DOMAIN-SUFFIX,openai.com,PROXY-代理
+- DOMAIN-SUFFIX,anthropic.com,PROXY-代理
+- DOMAIN-SUFFIX,claude.ai,PROXY-代理
+- DOMAIN-SUFFIX,claude.com,PROXY-代理
+- DOMAIN-SUFFIX,clau.de,PROXY-代理
+- DOMAIN-SUFFIX,claudeusercontent.com,PROXY-代理
+- DOMAIN-SUFFIX,claudemcpclient.com,PROXY-代理
+- DOMAIN-SUFFIX,claudemcpcontent.com,PROXY-代理
+- DOMAIN,servd-anthropic-website.b-cdn.net,PROXY-代理
+- DOMAIN,cdn.usefathom.com,PROXY-代理
+- DOMAIN,challenges.cloudflare.com,PROXY-代理
+- DOMAIN-SUFFIX,statsig.com,PROXY-代理
+- DOMAIN-SUFFIX,featuregates.org,PROXY-代理
+- DOMAIN-SUFFIX,featureassets.org,PROXY-代理
+- DOMAIN-KEYWORD,claude,PROXY-代理
+- DOMAIN-KEYWORD,anthropic,PROXY-代理
+- DOMAIN-KEYWORD,openai,PROXY-代理
+- DOMAIN-KEYWORD,generativelanguage,PROXY-代理
+- DOMAIN-SUFFIX,oaistatsig.com,PROXY-代理
+- DOMAIN-SUFFIX,sora.com,PROXY-代理
+- DOMAIN-SUFFIX,chatgpt.livekit.cloud,PROXY-代理
+- DOMAIN-SUFFIX,host.livekit.cloud,PROXY-代理
+- DOMAIN-SUFFIX,turn.livekit.cloud,PROXY-代理
+- DOMAIN,login.live.com,PROXY-代理
+- DOMAIN,login.microsoftonline.com,PROXY-代理
+- DOMAIN-SUFFIX,copilot.microsoft.com,PROXY-代理
+- DOMAIN-SUFFIX,copilot.com,PROXY-代理
+- DOMAIN-SUFFIX,githubcopilot.com,PROXY-代理
+- DOMAIN-SUFFIX,perplexity.ai,PROXY-代理
+- DOMAIN-SUFFIX,perplexity.com,PROXY-代理
+- DOMAIN-SUFFIX,pplx.ai,PROXY-代理
+- DOMAIN-SUFFIX,grok.com,PROXY-代理
+- DOMAIN-SUFFIX,x.ai,PROXY-代理
+- DOMAIN-SUFFIX,poe.com,PROXY-代理
+- DOMAIN-SUFFIX,meta.ai,PROXY-代理
+- DOMAIN-SUFFIX,midjourney.com,PROXY-代理
+- DOMAIN-SUFFIX,huggingface.co,PROXY-代理
+- DOMAIN-SUFFIX,cursor.com,PROXY-代理
+- DOMAIN-SUFFIX,cursor.sh,PROXY-代理
+- DOMAIN-SUFFIX,muse.ai,PROXY-代理
+- RULE-SET,ai-non-cn,PROXY-代理
 - RULE-SET,ACL-UnBan,DIRECT
 - RULE-SET,ACL-GoogleFCM,DIRECT
 - RULE-SET,ACL-GoogleCN,DIRECT
-- RULE-SET,ACL-YouTube,MEDIA-影音
-- RULE-SET,YouTube,MEDIA-影音
-- RULE-SET,ACL-Netflix,NETFLIX-奈飞
-- RULE-SET,ACL-ProxyMedia,MEDIA-影音
-- RULE-SET,ACL-Telegram,TELEGRAM-电报
-- RULE-SET,ACL-Apple,APPLE-苹果
-- RULE-SET,ACL-Microsoft,MICROSOFT-微软
-- RULE-SET,ACL-OneDrive,MICROSOFT-微软
-- RULE-SET,Google,GOOGLE-谷歌
+- RULE-SET,ACL-YouTube,PROXY-代理
+- RULE-SET,YouTube,PROXY-代理
+- RULE-SET,ACL-Netflix,PROXY-代理
+- RULE-SET,ACL-ProxyMedia,PROXY-代理
+- RULE-SET,ACL-Telegram,PROXY-代理
+- RULE-SET,ACL-Apple,PROXY-代理
+- RULE-SET,ACL-Microsoft,PROXY-代理
+- RULE-SET,ACL-OneDrive,PROXY-代理
+- RULE-SET,Google,PROXY-代理
 - RULE-SET,ACL-ProxyGFW,PROXY-代理
 - RULE-SET,Meta-CN-Domain,DIRECT
 - RULE-SET,ACL-ChinaDomain,DIRECT
