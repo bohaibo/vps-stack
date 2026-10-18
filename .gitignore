@@ -7,3 +7,7 @@ Thumbs.db
 我的服务器-*.md
 my-server-*.md
 *.local.md
+
+# Python 编译产物
+__pycache__/
+*.pyc

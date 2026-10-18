@@ -22,10 +22,10 @@ import subprocess
 import sys
 import time
 
-ETC = pathlib.Path('/etc/auth-proxy')
+ETC = pathlib.Path('/etc/vps-stack')
 CONF = ETC / 'proxy.json'
-UNIT = pathlib.Path('/etc/systemd/system/auth-proxy.service')
-SERVICE = 'auth-proxy'
+UNIT = pathlib.Path('/etc/systemd/system/vps-stack-proxy.service')
+SERVICE = 'vps-stack-proxy'
 DEFAULT_XRAY = '/usr/local/x-ui/bin/xray-linux-amd64'
 DEFAULT_HTTP = 20126
 DEFAULT_SOCKS = 59357
@@ -37,11 +37,11 @@ PRIVATE_NETS = ['127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16',
 
 
 def say(msg):
-    print('[auth-proxy] ' + msg, flush=True)
+    print('[vps-stack-proxy] ' + msg, flush=True)
 
 
 def die(msg):
-    print('[auth-proxy] 停止：' + msg, file=sys.stderr, flush=True)
+    print('[vps-stack-proxy] 停止：' + msg, file=sys.stderr, flush=True)
     sys.exit(2)
 
 
@@ -189,7 +189,7 @@ def cmd_install(a):
     if a.no_firewall is False and os.path.exists('/usr/sbin/ufw'):
         if 'Status: active' in run(['ufw', 'status'], check=False, quiet=True).stdout:
             for port, label in ((http_port, 'http'), (socks_port, 'socks5')):
-                run(['ufw', 'allow', f'{port}/tcp', 'comment', f'auth-proxy {label}'],
+                run(['ufw', 'allow', f'{port}/tcp', 'comment', f'vps-stack {label}'],
                     check=False, quiet=True)
             say('防火墙已放行（服务商后台的安全组也要放行同样端口）')
         else:

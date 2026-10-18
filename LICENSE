@@ -2,6 +2,11 @@ MIT License
 
 Copyright (c) 2026 bohaibo
 
+Portions of the deployment flow are derived from an MIT-licensed open source
+project. The original copyright notice is retained below as required:
+
+Copyright (c) 2026 Xiaoxiaodong
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
